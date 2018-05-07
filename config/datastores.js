@@ -49,15 +49,15 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-postgresql',
-    url: 'postgresql://postgres:admin@123@localhost:5432/loja-virtual',
+    // url: 'postgresql://postgres:admin@123@localhost:5432/loja-virtual',
     // url: 'postgres://splfaklcaaqetu:f2f64fedb88dd629798962a27e48193504a4288239717c6f2ccbd67bb11e9b3c@ec2-107-21-126-193.compute-1.amazonaws.com:5432/d65sn1id6ee71g'
-    // host: 'ec2-107-21-126-193.compute-1.amazonaws.com',
-    // port: 5432,
-    // user: 'splfaklcaaqetu',
-    // password: 'f2f64fedb88dd629798962a27e48193504a4288239717c6f2ccbd67bb11e9b3c',
-    // database: 'd65sn1id6ee71g',
-    // pool: false,
-    // ssl: true
+    host: 'ec2-107-21-126-193.compute-1.amazonaws.com',
+    port: 5432,
+    user: 'splfaklcaaqetu',
+    password: 'f2f64fedb88dd629798962a27e48193504a4288239717c6f2ccbd67bb11e9b3c',
+    database: 'd65sn1id6ee71g',
+    pool: false,
+    ssl: true
 
   },
 
