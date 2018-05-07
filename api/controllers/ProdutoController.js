@@ -14,7 +14,7 @@ module.exports = {
     },
 
     create: async function(req, res){
-        let produto = JSON.parse(req.param('produto'));
+        let produto = req.param('produto');
         if(!produto){
             return res.status(500).send({error: 'O produto não está preenchido'});
         }
