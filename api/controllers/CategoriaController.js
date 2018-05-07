@@ -8,7 +8,7 @@ module.exports = {
     },
 
     create: async function(req, res){
-        let cat = JSON.parse(req.param('categoria'));
+        let cat = req.param('categoria');
         
         var categoriaCriada = await Categoria.create(cat).fetch();
         if(!categoriaCriada){
