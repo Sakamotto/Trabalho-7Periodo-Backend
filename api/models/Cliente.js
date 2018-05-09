@@ -21,11 +21,11 @@ module.exports = {
     telefone: {type: 'string'},
 
     // ASSOCIATIONS
-    endereco: {
-      model:'endereco',
-      columnName:'enderecoId',
-      // required: true
-    }
+    // endereco: {
+    //   model:'endereco',
+    //   columnName:'enderecoId',
+    //   // required: true
+    // }
 
   },
 
