@@ -53,4 +53,7 @@ module.exports.routes = {
   'POST /categoria/:id': 'CategoriaController.update',
   'DELETE /categoria/:id': 'CategoriaController.delete',
 
+  // Cliente
+  'GET /cliente': 'ClienteController.findAll',
+
 };
