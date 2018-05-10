@@ -1,16 +1,16 @@
 
 exports.up = function(knex, Promise) {
     return Promise.all([
-        knex.schema.createTable('categoria', function(t) {
-            t.increments('id').unsigned().primary();
+        knex.schema.table('categoria', function(t) {
+            t.increments('id');
             t.string('nome').notNull();
             t.text('descricao').nullable();
             t.decimal('desconto', 6, 2).notNull();
             t.string('teste').nullable();
         }),
 
-        knex.schema.createTable('cliente', function(t) {
-            t.increments('id').unsigned().primary();
+        knex.schema.table('cliente', function(t) {
+            t.increments('id');
             t.string('nome').notNull();
             t.string('sobrenome').notNull();
             t.string('email').notNull();
@@ -23,8 +23,9 @@ exports.up = function(knex, Promise) {
 
         }),
 
-        knex.schema.createTable('produto', function(t) {
-            t.increments('id').unsigned().primary();
+        knex.schema.table('produto', function(t) {
+            t.increments('id');
+            t.integer('categoriaId').unsigned().notNullable();
             t.string('nome').notNull();
             t.string('tamanho').nullable();
             t.text('descricao').nullable();
@@ -33,7 +34,8 @@ exports.up = function(knex, Promise) {
             t.boolean('destaque').nullable();
             t.integer('quantidade').nullable();
             t.string('imagem').notNull();
-            t.integer('categoriaId').references('categoria.id');
+            t.foreign('categoriaId').references('id').inTable('categoria');
+            // t.integer('categoriaId').references('categoria.id');
         }),
     ]);
 };
