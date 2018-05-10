@@ -34,7 +34,7 @@ module.exports = {
 
     update: async function(req, res) {
         let id = req.param('id');
-        let updated = JSON.parse(req.param('categoria'));
+        let updated = req.param('categoria');
         if(id){
             var categoriaAtualizada = await Categoria.update({id: id}, updated).fetch();
             return res.json(categoriaAtualizada);

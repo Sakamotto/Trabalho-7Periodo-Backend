@@ -43,14 +43,14 @@ module.exports.routes = {
   'POST /produto': 'ProdutoController.create',
   'GET /produto': 'ProdutoController.findAll',
   'GET /produto/:id': 'ProdutoController.findOne',
-  'POST /produto/:id': 'ProdutoController.update',
+  'PUT /produto/:id': 'ProdutoController.update',
   'DELETE /produto/:id': 'ProdutoController.delete',
 
   // Categoria
   'POST /categoria': 'CategoriaController.create',
   'GET /categoria': 'CategoriaController.findAll',
   'GET /categoria/:id': 'CategoriaController.findOne',
-  'POST /categoria/:id': 'CategoriaController.update',
+  'PUT /categoria/:id': 'CategoriaController.update',
   'DELETE /categoria/:id': 'CategoriaController.delete',
 
   // Cliente
