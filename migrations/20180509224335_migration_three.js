@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
     return Promise.all([
-        knex.schema.table('categoria', function(t) {
+        knex.schema.createTable('categoria', function(t) {
             t.increments('id');
             t.string('nome').notNull();
             t.text('descricao').nullable();
@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
             t.string('teste').nullable();
         }),
 
-        knex.schema.table('cliente', function(t) {
+        knex.schema.createTable('cliente', function(t) {
             t.increments('id');
             t.string('nome').notNull();
             t.string('sobrenome').notNull();
@@ -23,7 +23,7 @@ exports.up = function(knex, Promise) {
 
         }),
 
-        knex.schema.table('produto', function(t) {
+        knex.schema.createTable('produto', function(t) {
             t.increments('id');
             t.integer('categoriaId').unsigned().notNullable();
             t.string('nome').notNull();
