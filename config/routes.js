@@ -54,6 +54,7 @@ module.exports.routes = {
   'DELETE /categoria/:id': 'CategoriaController.delete',
 
   // Cliente
+  'POST /cliente': 'ClienteController.create',
   'GET /cliente': 'ClienteController.findAll',
 
 };

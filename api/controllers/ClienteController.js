@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
     findAll: async function(req, res){
         try{
             var clientes = await Cliente.find({});
@@ -15,5 +14,14 @@ module.exports = {
         }
         return res.json(clientes);
     },
-};
 
+    create: async function(req, res){
+        let cliente = req.param('cliente');
+        
+        var clienteCriado = await Categoria.create(cliente).fetch();
+        if(!clienteCriado){
+            return res.status(500).send({error: 'Erro ao criar uma novo cliente.'})
+        }
+        return res.json(clienteCriado);
+    }
+};
