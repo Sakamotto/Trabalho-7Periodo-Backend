@@ -11,6 +11,8 @@
  *   https://sailsjs.com/anatomy/tasks/register/prod.js
  *
  */
+
+module.exports = require('sails-db-migrate').gruntTasks;
 module.exports = function(grunt) {
   grunt.registerTask('prod', [
     'polyfill:prod', //« Remove this to skip transpilation in production (not recommended)
