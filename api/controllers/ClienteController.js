@@ -18,7 +18,7 @@ module.exports = {
     create: async function(req, res){
         let cliente = req.param('cliente');
         
-        var clienteCriado = await Categoria.create(cliente).fetch();
+        var clienteCriado = await Cliente.create(cliente).fetch();
         if(!clienteCriado){
             return res.status(500).send({error: 'Erro ao criar uma novo cliente.'})
         }
