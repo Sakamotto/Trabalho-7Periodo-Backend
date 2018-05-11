@@ -15,7 +15,7 @@ module.exports = {
     email: {type: 'string', required: true, unique: true},
     senha: {type: 'string', required: true, encrypt: true},
     dataNascimento: {type: 'string'},
-    dataCadastro: {type: 'string', defaultsTo: new Date().toISOString()},
+    cadastroEm: {type: 'string', defaultsTo: new Date().toISOString()},
     ativo: {type: 'boolean', defaultsTo: true},
     cpf: {type: 'string'},
     telefone: {type: 'string'},
