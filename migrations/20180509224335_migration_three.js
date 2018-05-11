@@ -16,7 +16,8 @@ exports.up = function(knex, Promise) {
             t.string('email').notNull();
             t.string('senha').notNull();
             t.datetime('dataNascimento').nullable();
-            t.timestamp('dataCadastro').defaultTo(knex.fn.now());
+            // t.timestamp('dataCadastro').defaultTo(knex.fn.now());
+            t.string('dataCadastro').nullable();
             t.boolean('ativo').defaultTo(true);
             t.string('cpf').nullable();
             t.string('telefone').nullable();
