@@ -19,13 +19,14 @@ module.exports = {
     ativo: {type: 'boolean', defaultsTo: true},
     cpf: {type: 'string'},
     telefone: {type: 'string'},
+    isAdmin: {type: 'boolean', defaultsTo: false},
 
     // ASSOCIATIONS
-    // endereco: {
-    //   model:'endereco',
-    //   columnName:'enderecoId',
-    //   // required: true
-    // }
+    endereco: {
+      model:'endereco',
+      columnName:'enderecoId',
+      required: false
+    }
 
   },
 

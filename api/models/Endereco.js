@@ -5,8 +5,7 @@ module.exports = {
         bairro: {type: 'string'},
         cidade: {type: 'string'},
         estado: {type: 'string'},
-        uf: {type: 'string'},
-        teste:{type: 'string'}
+        uf: {type: 'string'}
 
         // cliente:{collection: 'cliente', via: 'endereco'}
     }

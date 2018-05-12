@@ -23,8 +23,14 @@ module.exports = {
     categoria:{
       model:'categoria',
       columnName:'categoriaId',
-      required: true
+      required: false
     },
+
+    fornecedor: {
+      model:'fornecedor',
+      columnName:'fornecedorId',
+      required: false
+    }
   },
 
   validar: function(){
