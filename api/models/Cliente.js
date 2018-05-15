@@ -5,6 +5,8 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+var bcrypt = require("bcryptjs");
+
 module.exports = {
 
   attributes: {
@@ -13,7 +15,7 @@ module.exports = {
     nome: {type: 'string', required: true},
     sobrenome: {type: 'string', required: true},
     email: {type: 'string', required: true, unique: true},
-    senha: {type: 'string', required: true, encrypt: true},
+    senha: {type: 'string', required: true}, //, encrypt: true
     dataNascimento: {type: 'string'},
     dataCadastro: {type: 'string'},
     ativo: {type: 'boolean', defaultsTo: true},
@@ -26,9 +28,8 @@ module.exports = {
       model:'endereco',
       columnName:'enderecoId',
       required: false
-    }
-
-  },
+    },
+  }
 
 };
 
