@@ -35,7 +35,7 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
 
-  schema: true,
+  //schema: true,
 
   datastore: process.env.NODE_ENV == 'production'? 'producao' :'localPostgres',
 

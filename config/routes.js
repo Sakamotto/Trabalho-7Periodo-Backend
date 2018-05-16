@@ -57,6 +57,7 @@ module.exports.routes = {
   'POST /cliente': 'ClienteController.create',
   'GET /cliente': 'ClienteController.findAll',
   'POST /cliente/login': 'ClienteController.login',
+  'PUT /cliente:id': 'ClienteController.update',
 
   // Fornecedor
   'POST /fornecedor': 'FornecedorController.create',

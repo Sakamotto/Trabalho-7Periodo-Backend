@@ -18,6 +18,20 @@ module.exports = {
         return res.json(clientes);
     },
 
+    update: async function(req, res) {
+        let id = req.param('id');
+        console.log('UPDATE');
+        let updated = req.param('cliente');
+        console.log('-> ', updated)
+        if(id){
+            var clienteAtualizado = await Cliente.update({id: id}, updated).fetch();
+            console.log('Passei');
+            return res.json(clienteAtualizado);
+        }else{
+            return res.status(500).send({error: 'O id precisa ser informado'});
+        }
+    },
+
     create: async function(req, res){
         let cliente = req.param('cliente');
         
@@ -38,10 +52,10 @@ module.exports = {
                 if(!user){
                     return res.status(500).send({err: 'Usuário não encontrado'});
                 }else{
-                    var token = jwt.sign({user: user}, sails.config.session.secret,{
+                    var token = jwt.sign({user: user}, sails.config.session.secret, {
                         expiresIn: '10h'
                     });
-                    return res.send({sucesso: true, token: token});
+                    return res.send({sucesso: true, token: token, user: user});
                 }
             }catch(err){
                 return res.status(500).send({err: err, erro: 'Catch aqui'});

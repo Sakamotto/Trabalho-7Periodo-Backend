@@ -29,6 +29,10 @@ module.exports = {
       columnName:'enderecoId',
       required: false
     },
+  },
+
+  customToJSON: function() {
+    return _.omit(this, ['senha']);
   }
 
 };
