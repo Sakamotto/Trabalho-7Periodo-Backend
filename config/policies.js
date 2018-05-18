@@ -18,10 +18,10 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  ClienteController: {
-    update: 'isAuth',
-    destroy: 'isAuth',
-    token: 'isAuth'
-  }
+  // ClienteController: {
+  //   update: 'isAuth',
+  //   destroy: 'isAuth',
+  //   token: 'isAuth'
+  // }
 
 };

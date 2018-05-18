@@ -56,6 +56,7 @@ module.exports.routes = {
   // Cliente
   'POST /cliente': 'ClienteController.create',
   'GET /cliente': 'ClienteController.findAll',
+  'GET /cliente/token': 'ClienteController.verifyToken',
   'POST /cliente/login': 'ClienteController.login',
   'PUT /cliente:id': 'ClienteController.update',
 
@@ -65,5 +66,6 @@ module.exports.routes = {
   'GET /fornecedor/:id': 'FornecedorController.findOne',
   'PUT /fornecedor/:id': 'FornecedorController.update',
   'DELETE /fornecedor/:id': 'FornecedorController.delete',
+
 
 };

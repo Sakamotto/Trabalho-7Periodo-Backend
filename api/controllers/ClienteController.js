@@ -42,6 +42,34 @@ module.exports = {
         return res.json(clienteCriado);
     },
 
+    verifyToken: function(req, res){
+        var bearerHeader = req.headers["authorization"];
+        var bearerToken = bearerHeader.split(" ")[1];
+        if (bearerToken) {
+            jwt.verify(bearerToken, sails.config.session.secret, function (err, decoded) {
+                if (err) {
+                    sails.log("verification error", err);
+                    if (err.name === "TokenExpiredError"){
+                        return res.json({sucesso: false, erro: err});
+                        // return res.forbidden("Session timed out, please login again");                    
+                    } else {
+                        return res.json({sucesso: false, erro: err});
+                    }
+                }
+      
+                Cliente.find({where: {id: decoded.id}}).exec(function callback(error, user) {
+                    if (error) return res.serverError({sucesso: false, erro: err});
+                    if (!user) return res.serverError({sucesso: false, erro: "User not found"});
+        
+                    res.json({sucesso: true, mensagem: "Usuário autenticado"});
+                    // next();
+                });
+          });
+        }else{
+            req.json({sucesso: false, erro: "Token inválido"});
+        }
+    },
+
     login: async function(req, res) {
         let email = req.param('email');
         let senha = req.param('senha');
@@ -50,18 +78,18 @@ module.exports = {
             try{
                 var user = await Cliente.findOne({email: email, senha: senha});
                 if(!user){
-                    return res.status(500).send({err: 'Usuário não encontrado'});
+                    return res.json({err: 'Usuário não encontrado'});
                 }else{
                     var token = jwt.sign({user: user}, sails.config.session.secret, {
-                        expiresIn: '10h'
+                        expiresIn: '30m'
                     });
-                    return res.send({sucesso: true, token: token, user: user});
+                    return res.send({sucesso: true, token: token, user: JSON.stringify(user)});
                 }
             }catch(err){
-                return res.status(500).send({err: err, erro: 'Catch aqui'});
+                return res.json({err: err, erro: 'Catch aqui'});
             }
         }else{
-            return res.status(500).send({err: 'Email e senha precisam ser preenchidos'});
+            return res.json({err: 'Email e senha precisam ser preenchidos'});
         }
-    }
+    },
 };
