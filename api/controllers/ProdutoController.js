@@ -8,7 +8,7 @@
 module.exports = {
     findAll: function(req, res){
         Produto.find({}).exec((err, produtos) => {
-            if(err) res.status(500).send({error: 'Erro ao buscar produtos'});
+            if(err) res.status(500).send({error: 'Erro ao buscar produtos', erro: err});
             res.status(200).send(produtos);
         });
     },
