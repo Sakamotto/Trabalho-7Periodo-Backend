@@ -14,7 +14,7 @@ module.exports = {
 	  quantidade:{type: 'number', required: true},
 	  custo:{type: 'number', required: true},
     descricao:{type: 'string'},
-	  venda:{type: 'number'},
+	  //venda:{type: 'number'},
     tamanho:{type: 'string'},
     modelo:{type: 'string'},
     destaque:{type: 'boolean'},
