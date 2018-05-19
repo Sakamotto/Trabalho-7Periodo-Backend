@@ -48,7 +48,7 @@ module.exports = {
         if (bearerToken) {
             jwt.verify(bearerToken, sails.config.session.secret, function (err, decoded) {
                 if (err) {
-                    sails.log("verification error", err);
+                    // sails.log("verification error", err);
                     if (err.name === "TokenExpiredError"){
                         return res.json({sucesso: false, erro: err});
                         // return res.forbidden("Session timed out, please login again");                    
