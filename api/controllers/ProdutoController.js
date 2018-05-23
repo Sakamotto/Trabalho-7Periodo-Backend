@@ -7,7 +7,7 @@
 
 module.exports = {
     findAll: function(req, res){
-        Produto.find({}).exec((err, produtos) => {
+        Produto.find({}).populate('categoria').exec((err, produtos) => {
             if(err) res.status(500).send({error: 'Erro ao buscar produtos', erro: err});
             res.status(200).send(produtos);
         });
@@ -27,7 +27,7 @@ module.exports = {
         let id = req.param('id');
         if(id){
             try{
-                var retorno = await Produto.findOne({id: id});
+                var retorno = await Produto.findOne({id: id}).populate('categoria');
                 return res.json(retorno);
             }catch(err){
                 return res.status(500).send({error: err});
