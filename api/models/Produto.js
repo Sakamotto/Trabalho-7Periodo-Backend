@@ -11,10 +11,11 @@ module.exports = {
     //Attributes
 
     nome:{type: 'string', required: true},
+    marca:{type: 'string'},
 	  quantidade:{type: 'number', required: true},
 	  custo:{type: 'number', required: true},
+	  venda:{type: 'number'},
     descricao:{type: 'string'},
-	  //venda:{type: 'number'},
     tamanho:{type: 'string'},
     modelo:{type: 'string'},
     destaque:{type: 'boolean'},
