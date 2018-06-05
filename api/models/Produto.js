@@ -19,19 +19,30 @@ module.exports = {
     tamanho:{type: 'string'},
     modelo:{type: 'string'},
     destaque:{type: 'boolean'},
-    imagem:{type: 'string'},
-    
+    // imagem:{type: 'string'},
+
     // Associations
     categoria:{
       model:'categoria',
       columnName:'categoriaId',
-      required: false
+      required: false // deve ser TRUE
     },
 
-    fornecedor: {
-      model:'fornecedor',
-      columnName:'fornecedorId',
-      required: false
+    // nesta relação, eu estou dizendo que Produto possui uma coleção (ou um conjunto) de tamanhos
+    tamanhos:{
+      collection: 'tamanho',
+      via: 'produto',
+      through: 'produtotamanho'
+    },
+
+    imagens:{
+      collection: 'imagem',
+      via: 'produtoId'
+    },
+
+    fornecedores: {
+      collection: 'fornecedor',
+      via: 'produto'
     }
   },
 
@@ -49,4 +60,3 @@ module.exports = {
   }
 
 };
-

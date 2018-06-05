@@ -18,7 +18,7 @@ module.exports = {
             filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
         }
 
-        Produto.find(filtros).populate('categoria').exec((err, produtos) => {
+        Produto.find(filtros).populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos').exec((err, produtos) => {
             if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
             res.status(200).send(produtos);
         });

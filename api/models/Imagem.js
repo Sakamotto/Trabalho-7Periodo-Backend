@@ -10,14 +10,11 @@ module.exports = {
   attributes: {
     //Attributes
 
-    razaoSocial:{type: 'string'},
-    email:{type: 'string'},
-    cnpj:{type: 'string'},
-    telefone:{type: 'string'},
-    cep:{type: 'string'},
-
-    // Associations
-    produto: {
+    link:{type: 'string', required: true},
+    nome:{type: 'string'},
+    descricao:{type: 'string'},
+    linkThumb:{type: 'string'},
+    produtoId: {
       model: 'produto'
     }
   }
