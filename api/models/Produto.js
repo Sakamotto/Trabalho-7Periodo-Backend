@@ -27,18 +27,18 @@ module.exports = {
       columnName:'categoriaId',
       required: false // deve ser TRUE
     },
-
-    // nesta relação, eu estou dizendo que Produto possui uma coleção (ou um conjunto) de tamanhos
-    tamanhos:{
-      collection: 'tamanho',
-      via: 'produto',
-      through: 'produtotamanho'
-    },
-
-    imagens:{
-      collection: 'imagem',
-      via: 'produtoId'
-    },
+    //
+    // // nesta relação, eu estou dizendo que Produto possui uma coleção (ou um conjunto) de tamanhos
+    // tamanhos:{
+    //   collection: 'tamanho',
+    //   via: 'produto',
+    //   through: 'produtotamanho'
+    // },
+    //
+    // imagens:{
+    //   collection: 'imagem',
+    //   via: 'produtoId'
+    // },
 
     fornecedores: {
       collection: 'fornecedor',

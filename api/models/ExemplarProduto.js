@@ -9,16 +9,16 @@ module.exports = {
 
   attributes: {
     //Attributes
+	  quantidade:{type: 'number', required: true},
 
-    link:{type: 'string', required: true},
-    nome:{type: 'string'},
-    descricao:{type: 'string'},
-    linkThumb:{type: 'string'},
+    // Associations
+    tamanhoId: {
+      model: 'tamanho',
+    },
 
-    exemplarproduto: {
-      collection: 'exemplarproduto',
-      via: 'imagemId'
+    imagemId:{
+      model: 'imagem'
     }
-  }
+  },
 
 };

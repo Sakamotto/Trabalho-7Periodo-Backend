@@ -15,12 +15,17 @@ module.exports = {
     altura:{type: 'number'},
     largura:{type: 'number'},
 
-    // adicionando uma referência para produto, para que através do tamanha, eu consiga popular todos os produtos pertencentes à este tamanho.
-    produtos: {
-      collection: 'produto',
-      via: 'tamanho',
-      through: 'produtotamanho'
+    exemplarproduto: {
+      collection: 'exemplarproduto',
+      via: 'tamanhoId'
     }
+
+    // adicionando uma referência para produto, para que através do tamanha, eu consiga popular todos os produtos pertencentes à este tamanho.
+    // produtos: {
+    //   collection: 'produto',
+    //   via: 'tamanho',
+    //   through: 'produtotamanho'
+    // }
 
   }
 
