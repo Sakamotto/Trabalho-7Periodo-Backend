@@ -17,8 +17,8 @@ module.exports = {
             filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
             filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
         }
-
-        Produto.find(filtros).populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos').exec((err, produtos) => {
+        // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
+        Produto.find(filtros).populate('exemplarprodutos').populate('imagens').exec((err, produtos) => {
             if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
             res.status(200).send(produtos);
         });
@@ -55,7 +55,7 @@ module.exports = {
         let id = req.param('id');
         if (id) {
             try {
-                var retorno = await Produto.findOne({ id: id }).populate('categoria');
+                var retorno = await Produto.findOne({ id: id }).populate('exemplarprodutos').populate('imagens');
                 return res.json(retorno);
             } catch (err) {
                 return res.status(500).send({ error: err });
@@ -69,6 +69,29 @@ module.exports = {
     update: async function (req, res) {
         let id = req.param('id');
         let updated = req.param('produto');
+
+        for(let exemplar of updated.exemplarprodutos){
+          if(exemplar.id){
+            await Produto.addToCollection(updated.id, 'exemplarprodutos').members([exemplar.id]);
+          }else{
+            let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
+            await Produto.addToCollection(updated.id, 'exemplarprodutos').members([novoExemplar.id]);
+          }
+        }
+
+        for(let imagem of updated.imagens) {
+          if(imagem.id){
+            await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
+          }else{
+            let novaImagem = await Imagem.create({link: imagem.link}).fetch();
+            await Produto.addToCollection(updated.id, 'imagens').members([novaImagem.id]);
+          }
+        }
+
+        delete updated.exemplarprodutos;
+        delete updated.imagens;
+
+
         if (id) {
             if (updated.categoria) {
                 updated.categoria = updated.categoria.id;

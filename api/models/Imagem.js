@@ -15,9 +15,8 @@ module.exports = {
     descricao:{type: 'string'},
     linkThumb:{type: 'string'},
 
-    exemplarproduto: {
-      collection: 'exemplarproduto',
-      via: 'imagemId'
+    produtoId: {
+      model: 'produto'
     }
   }
 

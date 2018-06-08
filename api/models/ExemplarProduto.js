@@ -10,15 +10,17 @@ module.exports = {
   attributes: {
     //Attributes
 	  quantidade:{type: 'number', required: true},
+    cor: {type: 'string'},
+    hexColor: {type: 'string'},
 
     // Associations
     tamanhoId: {
       model: 'tamanho',
     },
 
-    imagemId:{
-      model: 'imagem'
-    }
+    produtoId: {
+      model: 'produto'
+    },
   },
 
 };

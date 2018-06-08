@@ -17,8 +17,10 @@ module.exports = {
     cep:{type: 'string'},
 
     // Associations
-    produto: {
-      model: 'produto'
+    produtos: {
+      collection: 'produto',
+      via: 'fornecedorId',
+      through: 'produtofornecedor'
     }
   }
 
