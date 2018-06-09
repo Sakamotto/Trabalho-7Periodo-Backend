@@ -18,6 +18,7 @@ module.exports = {
     descricao:{type: 'string'},
     tamanho:{type: 'string'},
     modelo:{type: 'string'},
+    material:{type: 'string'},
     destaque:{type: 'boolean'},
 
     // Associations
