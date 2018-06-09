@@ -18,7 +18,7 @@ module.exports = {
             filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
         }
         // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
-        Produto.find(filtros).populate('exemplarprodutos').populate('imagens').exec((err, produtos) => {
+        Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').exec((err, produtos) => {
             if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
             res.status(200).send(produtos);
         });
@@ -43,6 +43,23 @@ module.exports = {
 
     create: async function (req, res) {
         let produto = req.param('produto');
+        let listaImagens = [];
+        let listaExemplares = [];
+
+        for (let exemplar of produto.exemplarprodutos) {
+            let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
+            listaExemplares.push(novoExemplar.id);
+        }
+
+        for (let imagem of produto.imagens) {
+            let novaImagem = await Imagem.create({ link: imagem.link }).fetch();
+            listaImagens.push(novaImagem.id);
+        }
+
+        produto.quantidade = 90;
+        produto.exemplarprodutos = listaExemplares;
+        produto.imagens = listaImagens;
+
         if (!produto) {
             return res.status(500).send({ error: 'O produto não está preenchido' });
         }
@@ -55,7 +72,7 @@ module.exports = {
         let id = req.param('id');
         if (id) {
             try {
-                var retorno = await Produto.findOne({ id: id }).populate('exemplarprodutos').populate('imagens');
+                var retorno = await Produto.findOne({ id: id }).populate('exemplarprodutos').populate('imagens').populate('categoria');
                 return res.json(retorno);
             } catch (err) {
                 return res.status(500).send({ error: err });
@@ -63,38 +80,38 @@ module.exports = {
         } else {
             return res.status(500).send({ error: 'O id precisa ser informado' });
         }
-
     },
 
     update: async function (req, res) {
         let id = req.param('id');
         let updated = req.param('produto');
 
-        for(let exemplar of updated.exemplarprodutos){
-          if(exemplar.id){
-            await Produto.addToCollection(updated.id, 'exemplarprodutos').members([exemplar.id]);
-          }else{
-            let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
-            await Produto.addToCollection(updated.id, 'exemplarprodutos').members([novoExemplar.id]);
-          }
+        for (let exemplar of updated.exemplarprodutos) {
+            if (exemplar.id) {
+                await ExemplarProduto.update({id: exemplar.id}, exemplar).fetch();
+                await Produto.addToCollection(updated.id, 'exemplarprodutos').members([exemplar.id]);
+            } else {
+                let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
+                await Produto.addToCollection(updated.id, 'exemplarprodutos').members([novoExemplar.id]);
+            }
         }
 
-        for(let imagem of updated.imagens) {
-          if(imagem.id){
-            await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
-          }else{
-            let novaImagem = await Imagem.create({link: imagem.link}).fetch();
-            await Produto.addToCollection(updated.id, 'imagens').members([novaImagem.id]);
-          }
+        for (let imagem of updated.imagens) {
+            if (imagem.id) {
+                await ExemplarProduto.update({id: imagem.id}, imagem).fetch();
+                await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
+            } else {
+                let novaImagem = await Imagem.create({ link: imagem.link }).fetch();
+                await Produto.addToCollection(updated.id, 'imagens').members([novaImagem.id]);
+            }
         }
 
         delete updated.exemplarprodutos;
         delete updated.imagens;
 
-
         if (id) {
             if (updated.categoria) {
-                updated.categoria = updated.categoria.id;
+                updated.categoria = updated.categoria.id || updated.categoria;
             }
             var produtoAtualizado = await Produto.update({ id: id }, updated).fetch();
             return res.json(produtoAtualizado);
@@ -106,6 +123,7 @@ module.exports = {
     delete: async function (req, res) {
         let id = req.param('id');
         if (id) {
+            await ExemplarProduto.destroy({ where: { produtoId: id } }); // Testar isso ...
             var deletado = await Produto.destroy({ id: id }).fetch();
             return res.json({ mensagem: 'Produto deletada com sucesso', deletado });
         } else {

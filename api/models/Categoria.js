@@ -10,7 +10,8 @@ module.exports = {
         nome: {type: 'string', required: true},
         descricao:{ type: 'string'},
         desconto: {type: 'number'},
-        produtos: {collection: 'produto', via: 'categoriaId'},
+        produtos: {collection: 'produto', via: 'categoria'},
+        // produtoId: {model: 'produto'}
 
     },
 

@@ -22,14 +22,11 @@ module.exports = {
 
     // Associations
 
-    categoriaId: {
-      model: 'categoria'
+    categoria:{
+      model:'categoria',
+      columnName:'categoriaId',
+      required: false // deve ser TRUE
     },
-
-    // categorias:{
-    //   collection:'categoria',
-    //   via:'produtoId'
-    // },
 
     exemplarprodutos: {
       collection: 'exemplarproduto',
