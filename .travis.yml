@@ -16,7 +16,7 @@ script:
   # other script steps might be done before running the actual analysis
   #- build-wrapper-linux-x86-64 --out-dir outDir make all
   # - cd loja-virtual-app
-  # - sonar-scanner
+  - sonar-scanner
   - echo "Testando a integração com TRAVIS.CI !!!"
   - npm run test
     
