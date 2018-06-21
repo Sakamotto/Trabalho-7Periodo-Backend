@@ -24,6 +24,10 @@ module.exports = {
         });
     },
 
+    getExemplarCarrinho: function (res, req){
+      
+    },
+
     getAll: async function (req, res) {
         let paramFiltro = req.param('filtros');
         let filtros = {};
@@ -98,14 +102,19 @@ module.exports = {
 
         for (let imagem of updated.imagens) {
             if (imagem.id) {
-                await ExemplarProduto.update({id: imagem.id}, imagem).fetch();
-                await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
+                if(imagem.link){
+                  await Imagem.update({id: imagem.id}, imagem).fetch();
+                  await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
+                }else{
+                  await Imagem.destroy({id: imagem.id}).fetch();
+                }
             } else {
-                let novaImagem = await Imagem.create({ link: imagem.link }).fetch();
-                await Produto.addToCollection(updated.id, 'imagens').members([novaImagem.id]);
+              console.log('Else');
+              let novaImagem = await Imagem.create({ link: imagem.link }).fetch();
+              await Produto.addToCollection(updated.id, 'imagens').members([novaImagem.id]);
+              console.log('Else: ', novaImagem);
             }
         }
-
         delete updated.exemplarprodutos;
         delete updated.imagens;
 
