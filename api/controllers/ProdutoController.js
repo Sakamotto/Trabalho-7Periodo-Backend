@@ -9,16 +9,29 @@ module.exports = {
     findAll: async function (req, res) {
         let paramFiltro = req.param('filtros');
         let filtros = {};
+        let condicoes = {};
 
         if (paramFiltro) {
-            // filtros = {}; // {limit: 15, skip: 0}
+            paramFiltro = JSON.parse(paramFiltro);
             var qtdProdutos = await Produto.count();
             var qtdPaginas = Math.ceil(qtdProdutos / (paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10));
             filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
-            filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
+            filtros.skip = (paramFiltro.paginaAtual - 1) * filtros.limit;
+
+            // Verificação filtros where
+            if (paramFiltro.nome) {
+                condicoes.nome = paramFiltro.nome;
+            }
+            
+            if (paramFiltro.categoriaId) {
+                condicoes.categoria = paramFiltro.categoriaId;
+            }
         }
-        // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
-        Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').exec((err, produtos) => {
+
+        // Testar ProdutoService.findAll(paramFiltro);
+
+        //.where({categoria: paramFiltro.categoriaId}) it works!
+        Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').where(condicoes).exec((err, produtos) => {
             if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
             res.status(200).send(produtos);
         });
@@ -88,7 +101,7 @@ module.exports = {
 
         for (let exemplar of updated.exemplarprodutos) {
             if (exemplar.id) {
-                await ExemplarProduto.update({id: exemplar.id}, exemplar).fetch();
+                await ExemplarProduto.update({ id: exemplar.id }, exemplar).fetch();
                 await Produto.addToCollection(updated.id, 'exemplarprodutos').members([exemplar.id]);
             } else {
                 let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
@@ -98,7 +111,7 @@ module.exports = {
 
         for (let imagem of updated.imagens) {
             if (imagem.id) {
-                await ExemplarProduto.update({id: imagem.id}, imagem).fetch();
+                await ExemplarProduto.update({ id: imagem.id }, imagem).fetch();
                 await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
             } else {
                 let novaImagem = await Imagem.create({ link: imagem.link }).fetch();

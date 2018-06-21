@@ -35,12 +35,12 @@ module.exports.bootstrap = async function(done) {
     {nome: 'Produto Teste 4', marca: 'Marca Desconhecida', quantidade: 100, custo: 23.55, venda: 50.99, descricao: 'Descrição sobre o produto bem aqui ...'},
   ]);
 
-  await ProdutoCategoria.createEach([
-    { produtoId: 1, categoriaId: 2},
-    { produtoId: 1, categoriaId: 4},
-    { produtoId: 2, categoriaId: 1},
-    { produtoId: 2, categoriaId: 5},
-  ]);
+  // await ProdutoCategoria.createEach([
+  //   { produtoId: 1, categoriaId: 2},
+  //   { produtoId: 1, categoriaId: 4},
+  //   { produtoId: 2, categoriaId: 1},
+  //   { produtoId: 2, categoriaId: 5},
+  // ]);
 
   await Tamanho.createEach([
     { nome: 'PP', numero: 1},
