@@ -45,6 +45,7 @@ module.exports.routes = {
   'GET /produto/:id': 'ProdutoController.findOne',
   'PUT /produto/:id': 'ProdutoController.update',
   'DELETE /produto/:id': 'ProdutoController.delete',
+  'POST /produto/carrinho': 'ProdutoController.getExemplarCarrinho',
 
   // Categoria
   'POST /categoria': 'CategoriaController.create',

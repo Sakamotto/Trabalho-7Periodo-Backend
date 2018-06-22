@@ -12,14 +12,16 @@ module.exports = {
 	  quantidade:{type: 'number', required: true},
     cor: {type: 'string'},
     hexColor: {type: 'string'},
+    itemcompra: {collection: 'itemcompra', via: 'exemplarproduto'},
 
     // Associations
     tamanhoId: {
       model: 'tamanho',
     },
 
-    produtoId: {
-      model: 'produto'
+    produto: {
+      model: 'produto',
+      columnName: 'produtoId'
     },
   },
 

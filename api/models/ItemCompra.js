@@ -10,13 +10,13 @@ module.exports = {
     attributes: {
         //Attributes
         quantidade: { type: 'number', required: true },
-        valor: { type: 'number' },
+        valor: { type: 'number', required: true },
         desconto: { type: 'number' },
 
         // Associations
-        produto: {
-            model: 'produto',
-            columnName: 'produtoId',
+        exemplarproduto: {
+            model: 'exemplarproduto',
+            columnName: 'exemplarprodutoId',
             required: true
         },
 

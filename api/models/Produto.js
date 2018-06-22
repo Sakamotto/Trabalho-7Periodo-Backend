@@ -31,7 +31,7 @@ module.exports = {
 
     exemplarprodutos: {
       collection: 'exemplarproduto',
-      via: 'produtoId',
+      via: 'produto',
     },
 
     imagens: {
