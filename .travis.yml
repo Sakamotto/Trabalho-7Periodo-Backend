@@ -11,7 +11,9 @@ addons:
     organization: "sakamotto-github"
     token:
       secure: cda0696838616ba5ea7c8cbb5bd6741b83c70836
-    
+env:
+  - NODE_ENV=production
+
 script:
   # other script steps might be done before running the actual analysis
   #- build-wrapper-linux-x86-64 --out-dir outDir make all
