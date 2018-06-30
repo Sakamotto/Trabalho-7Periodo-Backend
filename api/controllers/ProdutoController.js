@@ -18,7 +18,7 @@ module.exports = {
       // var qtdPaginas = Math.ceil(qtdProdutos / (paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10));
       // filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
       // filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
-      if (paramFiltro.nome) filtros.nome = { contains: paramFiltro.nome };
+      if (paramFiltro.nome) where.nome = { contains: paramFiltro.nome };
       // if (paramFiltro.categoriaId) filtros.categoriaId = paramFiltro.categoriaId;
 
       if (paramFiltro.categoriaId) where.id = paramFiltro.categoriaId;
