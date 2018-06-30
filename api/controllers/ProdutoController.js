@@ -4,7 +4,8 @@
 * @description :: Server-side actions for handling incoming requests.
 * @help        :: See https://sailsjs.com/docs/concepts/actions
 */
-
+const http = require('http');
+var parser = require('xml2js');
 module.exports = {
   findAll: async function (req, res) {
     let paramFiltro = req.param('filtros');
@@ -17,6 +18,7 @@ module.exports = {
       filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
       filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
     }
+
     // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
     Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').exec((err, produtos) => {
       if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
@@ -24,15 +26,13 @@ module.exports = {
     });
   },
 
-  getExemplarCarrinho: async function (req, res){
-    // let produtoId = req.param('produtoId');
-    console.log('Param: ', req.param('exemplarId'));
+  getExemplarCarrinho: async function (req, res) {
     let exemplarId = req.param('exemplarId');
 
     if (exemplarId) {
       try {
         var retorno = await ExemplarProduto.findOne({ id: exemplarId }).populate('produto').populate('itemcompra');
-        let imagens = await Imagem.find({produtoId: retorno.produto.id});
+        let imagens = await Imagem.find({ produtoId: retorno.produto.id });
         retorno.produto.imagens = imagens;
         return res.json(retorno);
       } catch (err) {
@@ -75,7 +75,7 @@ module.exports = {
       listaImagens.push(novaImagem.id);
     }
 
-    produto.quantidade = 90;
+    // produto.quantidade = 90;
     produto.exemplarprodutos = listaExemplares;
     produto.imagens = listaImagens;
 
@@ -107,7 +107,7 @@ module.exports = {
 
     for (let exemplar of updated.exemplarprodutos) {
       if (exemplar.id) {
-        await ExemplarProduto.update({id: exemplar.id}, exemplar).fetch();
+        await ExemplarProduto.update({ id: exemplar.id }, exemplar).fetch();
         await Produto.addToCollection(updated.id, 'exemplarprodutos').members([exemplar.id]);
       } else {
         let novoExemplar = await ExemplarProduto.create(exemplar).fetch();
@@ -117,11 +117,11 @@ module.exports = {
 
     for (let imagem of updated.imagens) {
       if (imagem.id) {
-        if(imagem.link){
-          await Imagem.update({id: imagem.id}, imagem).fetch();
+        if (imagem.link) {
+          await Imagem.update({ id: imagem.id }, imagem).fetch();
           await Produto.addToCollection(updated.id, 'imagens').members([imagem.id]);
-        }else{
-          await Imagem.destroy({id: imagem.id}).fetch();
+        } else {
+          await Imagem.destroy({ id: imagem.id }).fetch();
         }
       } else {
         console.log('Else');
@@ -142,6 +142,23 @@ module.exports = {
     } else {
       return res.status(500).send({ error: 'O id precisa ser informado' });
     }
+  },
+
+  calcularFrete: function (req, res) {
+    let cep = req.param('cep').replace(".", "").replace("-", "");
+    let url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPreco?nCdEmpresa=&sDsSenha=&sCepOrigem=29055000&sCepDestino='+cep+'&nVlPeso=5&nCdFormato=1&nVlComprimento=16&nVlAltura=5&nVlLargura=15&nVlDiametro=0&sCdMaoPropria=s&nVlValorDeclarado=200&sCdAvisoRecebimento=n&nCdServico=40010,41106&StrRetorno=xml';
+    let output = '';
+    http.get(url, resp => {
+      resp.on('data', function (chunk) {
+        output += chunk;
+      });
+
+      resp.on('end', function () {
+        parser.parseString(output, (err, result) => {
+            return res.status(200).send(result);
+        });
+      });
+    });
   },
 
   delete: async function (req, res) {
