@@ -3,12 +3,6 @@ var parser = require('xml2js');
 
 module.exports = {
 
-    testeService: async function () {
-        console.log('Serviço');
-        let listaProdutos = await Produto.find({});
-        console.log('Produtos: ', listaProdutos);
-    },
-
     calcularFrete: function (cep) {
         let url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPreco?nCdEmpresa=&sDsSenha=&sCepOrigem=74380150&sCepDestino=43810040&nVlPeso=5&nCdFormato=1&nVlComprimento=16&nVlAltura=5&nVlLargura=15&nVlDiametro=0&sCdMaoPropria=s&nVlValorDeclarado=200&sCdAvisoRecebimento=n&nCdServico=40010,41106&StrRetorno=xml';
         let output = '';

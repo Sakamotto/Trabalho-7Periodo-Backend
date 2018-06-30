@@ -10,19 +10,24 @@ module.exports = {
   findAll: async function (req, res) {
     let paramFiltro = req.param('filtros');
     let filtros = {};
+    let where = {}
 
     if (paramFiltro) {
       paramFiltro = JSON.parse(paramFiltro);
-      // filtros = {}; // {limit: 15, skip: 0}
       // var qtdProdutos = await Produto.count();
       // var qtdPaginas = Math.ceil(qtdProdutos / (paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10));
       // filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
       // filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
       if (paramFiltro.nome) filtros.nome = { contains: paramFiltro.nome };
+      // if (paramFiltro.categoriaId) filtros.categoriaId = paramFiltro.categoriaId;
+
+      if (paramFiltro.categoriaId) where.id = paramFiltro.categoriaId;
+      if (paramFiltro.precoMin) where.venda = { '>=': paramFiltro.precoMin };
+      if (paramFiltro.precoMax) where.venda = { '<=': paramFiltro.precoMax };
     }
-    
+
     // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
-    Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').exec((err, produtos) => {
+    Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').where(where).exec((err, produtos) => {
       if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });
       res.status(200).send(produtos);
     });
@@ -148,7 +153,7 @@ module.exports = {
 
   calcularFrete: function (req, res) {
     let cep = req.param('cep').replace(".", "").replace("-", "");
-    let url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPreco?nCdEmpresa=&sDsSenha=&sCepOrigem=29055000&sCepDestino='+cep+'&nVlPeso=5&nCdFormato=1&nVlComprimento=16&nVlAltura=5&nVlLargura=15&nVlDiametro=0&sCdMaoPropria=s&nVlValorDeclarado=200&sCdAvisoRecebimento=n&nCdServico=40010,41106&StrRetorno=xml';
+    let url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPreco?nCdEmpresa=&sDsSenha=&sCepOrigem=29055000&sCepDestino=' + cep + '&nVlPeso=5&nCdFormato=1&nVlComprimento=16&nVlAltura=5&nVlLargura=15&nVlDiametro=0&sCdMaoPropria=s&nVlValorDeclarado=200&sCdAvisoRecebimento=n&nCdServico=40010,41106&StrRetorno=xml';
     let output = '';
     http.get(url, resp => {
       resp.on('data', function (chunk) {
@@ -157,7 +162,7 @@ module.exports = {
 
       resp.on('end', function () {
         parser.parseString(output, (err, result) => {
-            return res.status(200).send(result);
+          return res.status(200).send(result);
         });
       });
     });

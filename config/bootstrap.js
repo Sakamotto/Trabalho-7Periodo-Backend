@@ -18,7 +18,8 @@ module.exports.bootstrap = async function (done) {
 
   if (await Cliente.count() == 0) {
     await Cliente.createEach([
-      { nome: 'Loja', sobrenome: 'Admin', senha: '123456', email: 'loja@admin.com' }
+      { nome: 'Loja', sobrenome: 'Admin', senha: '123456', email: 'loja@admin.com' },
+      { nome: 'Cliente', sobrenome: 'da Loja', senha: '123456', email: 'cliente@loja.com' }
     ]);
   }
 
