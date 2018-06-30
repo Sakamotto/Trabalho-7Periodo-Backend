@@ -12,13 +12,15 @@ module.exports = {
     let filtros = {};
 
     if (paramFiltro) {
+      paramFiltro = JSON.parse(paramFiltro);
       // filtros = {}; // {limit: 15, skip: 0}
-      var qtdProdutos = await Produto.count();
-      var qtdPaginas = Math.ceil(qtdProdutos / (paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10));
-      filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
-      filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
+      // var qtdProdutos = await Produto.count();
+      // var qtdPaginas = Math.ceil(qtdProdutos / (paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10));
+      // filtros.limit = paramFiltro.itensPorPagina ? paramFiltro.itensPorPagina : 10;
+      // filtros.skip = (paramFiltro.paginaAtual - 1) * paramFiltro.itensPorPagina;
+      if (paramFiltro.nome) filtros.nome = { contains: paramFiltro.nome };
     }
-
+    
     // .populate('categoria').populate('imagens', { select: ['link']}).populate('tamanhos')
     Produto.find(filtros).populate('exemplarprodutos').populate('imagens').populate('categoria').exec((err, produtos) => {
       if (err) res.status(500).send({ error: 'Erro ao buscar produtos', erro: err });

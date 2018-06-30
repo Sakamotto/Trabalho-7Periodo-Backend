@@ -62,7 +62,10 @@ module.exports.datastores = {
 
   localPostgres: {
     adapter: 'sails-postgresql',
-    url: 'postgresql://postgres:admin@123@localhost:5432/loja-virtual'
+    url: 'postgresql://postgres:admin@123@localhost:5432/loja-virtual',
+    wlNext: {
+      caseSensitive: false
+    }
   },
 
   producao: {

@@ -58,13 +58,13 @@ module.exports.bootstrap = async function (done) {
   ]);
 
   await ExemplarProduto.createEach([
-    { quantidade: 100, tamanhoId: 2, cor: 'Azul', hexColor: '#4286f4', tamanhoId: 2, produtoId: 1 },
-    { quantidade: 56, tamanhoId: 1, cor: 'Vermelho', hexColor: '#af3123', tamanhoId: 3, produtoId: 1 },
-    { quantidade: 100, tamanhoId: 3, cor: 'Cinza', hexColor: '#5d6066', tamanhoId: 2, produtoId: 1 },
+    {quantidade: 100, cor: 'Azul', hexColor: '#4286f4', tamanhoId: 2, produtoId: 1 },
+    {quantidade: 56, cor: 'Vermelho', hexColor: '#af3123', tamanhoId: 3, produtoId: 1 },
+    {quantidade: 100, cor: 'Cinza', hexColor: '#5d6066', tamanhoId: 2, produtoId: 1 },
 
-    { quantidade: 10, tamanhoId: 2, cor: 'Verde', hexColor: '#4286f4', tamanhoId: 5, produtoId: 2 },
-    { quantidade: 100, tamanhoId: 2, cor: 'Rosa', hexColor: '#4286f4', tamanhoId: 3, produtoId: 2 },
-    { quantidade: 60, tamanhoId: 2, cor: 'Preto', hexColor: '#000000', tamanhoId: 4, produtoId: 2 },
+    {quantidade: 10, cor: 'Verde', hexColor: '#4286f4', tamanhoId: 5, produtoId: 2 },
+    {quantidade: 100, cor: 'Rosa', hexColor: '#4286f4', tamanhoId: 3, produtoId: 2 },
+    {quantidade: 60, cor: 'Preto', hexColor: '#000000', tamanhoId: 4, produtoId: 2 },
   ]);
 
   await Imagem.createEach([

@@ -5,13 +5,13 @@ node_js:
 branches:
   only:
     - master
-    
+
 addons:
   sonarcloud:
     organization: "sakamotto-github"
     token:
       secure: cda0696838616ba5ea7c8cbb5bd6741b83c70836
-    
+
 script:
   # other script steps might be done before running the actual analysis
   #- build-wrapper-linux-x86-64 --out-dir outDir make all
@@ -19,7 +19,7 @@ script:
   - sonar-scanner
   - echo "Testando a integração com TRAVIS.CI !!!"
   - npm run test
-    
+
 #script:
     #- sonar-scanner.bat -Dsonar.projectKey=TrabalhoIntegradoKey -Dsonar.organization=sakamotto-github -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=a48e3dff64de99d176e281a1f6fbdacab3c9be3c
 #    - echo "Hello..."
