@@ -69,5 +69,8 @@ module.exports.routes = {
   'PUT /fornecedor/:id': 'FornecedorController.update',
   'DELETE /fornecedor/:id': 'FornecedorController.delete',
 
+  // Compra
+  'POST /compra/finalizarCompra': 'Compra.finalizarCompra',
+  'POST /compra/minhasCompras': 'Compra.getMinhasCompras'
 
 };

@@ -35,15 +35,21 @@ module.exports = {
         } catch (error) {
             res.status(200).send({ erro: error, mensagem: 'Ocorreu um erro durante a finalização da compra' });
         }
-
     },
 
-    getMinhasCompras: await function (req, res) {
+    getMinhasCompras: async function (req, res) {
         let clienteId = req.param('clienteId');
 
         if (clienteId) {
             try {
-                let compras = await Compra.find({ cliente: clienteId }).populate('itemcompra');
+                let compras = await Compra.find({ cliente: clienteId }).populate('itemCompra');
+
+                for (let i = 0; i < compras.length; i++) {
+                    let exemplarComprado = await ExemplarProduto.findOne({id: compras[i].itemCompra.exemplarproduto}).populate('produto');
+                    compras[i].exemplar = exemplarComprado;
+                }
+
+                let exemplarComprado = await ExemplarProduto.findOne
                 res.status(200).send(compras);
             } catch (error) {
                 res.status(200).send({ erro: error, mensagem: 'Ocorreu um erro ao obter compras' });
