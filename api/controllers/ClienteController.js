@@ -9,9 +9,9 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 module.exports = {
-    findAll: async function(req, res){        
+    findAll: async function(req, res){
         try{
-            var clientes = await Cliente.find({});
+            var clientes = await Cliente.find({}).populate('endereco');
         }catch(err){
             return res.status(500).send({error: err});
         }
@@ -34,7 +34,15 @@ module.exports = {
 
     create: async function(req, res){
         let cliente = req.param('cliente');
-        
+
+        if(cliente){
+          let endereco = cliente.endereco;
+          if(endereco){
+            let enderecoCliente = await Endereco.create(endereco).fetch();
+            cliente.endereco = enderecoCliente.id;
+          }
+        }
+
         var clienteCriado = await Cliente.create(cliente).fetch();
         if(!clienteCriado){
             return res.status(500).send({error: 'Erro ao criar uma novo cliente.'})
@@ -51,16 +59,16 @@ module.exports = {
                     // sails.log("verification error", err);
                     if (err.name === "TokenExpiredError"){
                         return res.json({sucesso: false, erro: err});
-                        // return res.forbidden("Session timed out, please login again");                    
+                        // return res.forbidden("Session timed out, please login again");
                     } else {
                         return res.json({sucesso: false, erro: err});
                     }
                 }
-      
+
                 Cliente.find({where: {id: decoded.id}}).exec(function callback(error, user) {
                     if (error) return res.serverError({sucesso: false, erro: err});
                     if (!user) return res.serverError({sucesso: false, erro: "User not found"});
-        
+
                     res.json({sucesso: true, mensagem: "Usuário autenticado"});
                     // next();
                 });
@@ -76,7 +84,7 @@ module.exports = {
 
         if(senha && email){
             try{
-                var user = await Cliente.findOne({email: email, senha: senha});
+                var user = await Cliente.findOne({email: email, senha: senha}).populate('endereco');
                 if(!user){
                     return res.json({err: 'Usuário não encontrado'});
                 }else{
