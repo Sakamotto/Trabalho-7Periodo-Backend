@@ -46,10 +46,11 @@ module.exports = {
 
                 for (let i = 0; i < compras.length; i++) {
                     let exemplarComprado = await ExemplarProduto.findOne({id: compras[i].itemCompra.exemplarproduto}).populate('produto');
+                    let imagens = await Imagem.find({produtoId: exemplarComprado.produto.id});
+                    exemplarComprado.produto.imagens = imagens;
                     compras[i].exemplar = exemplarComprado;
                 }
 
-                let exemplarComprado = await ExemplarProduto.findOne
                 res.status(200).send(compras);
             } catch (error) {
                 res.status(200).send({ erro: error, mensagem: 'Ocorreu um erro ao obter compras' });
