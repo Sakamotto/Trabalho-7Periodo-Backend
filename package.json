@@ -9,7 +9,7 @@
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "amqplib": "^0.5.2",
-    "async": "2.0.1",
+    "async": "3.2.2",
     "bcryptjs": "^2.4.3",
     "db-migrate": "^0.11.1",
     "db-migrate-pg": "^0.4.0",
