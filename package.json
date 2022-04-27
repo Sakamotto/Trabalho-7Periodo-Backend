@@ -13,7 +13,7 @@
     "bcryptjs": "^2.4.3",
     "db-migrate": "^0.11.1",
     "db-migrate-pg": "^0.4.0",
-    "grunt": "1.0.1",
+    "grunt": "1.5.2",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.14.6",
     "pg": "^7.4.3",
